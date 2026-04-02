@@ -24,6 +24,7 @@ fi
 echo "==> Installing dependencies via pacman..."
 pacman -S --needed --noconfirm \
     mingw-w64-x86_64-gcc \
+    mingw-w64-x86_64-make \
     mingw-w64-x86_64-readline \
     mingw-w64-x86_64-sqlite3 \
     mintty
@@ -35,8 +36,8 @@ cd "$SRC_DIR"
 RL_PREFIX="/mingw64"
 SQ_PREFIX="/mingw64"
 
-make clean
-make \
+mingw32-make clean
+mingw32-make \
     CC="gcc" \
     "RL_PREFIX=$RL_PREFIX" \
     "SQ_PREFIX=$SQ_PREFIX" \
