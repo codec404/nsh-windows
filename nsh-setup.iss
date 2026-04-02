@@ -48,9 +48,9 @@ Source: "{#DistDir}\bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesu
 
 [Icons]
 ; Start Menu shortcut — opens MinTTY running nsh
-Name: "{group}\nsh Terminal";          Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh -e ""{app}\bin\nsh.exe"""; WorkingDir: "{userdocs}"
+Name: "{group}\nsh Terminal";          Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh --env MSYSTEM=MSYS --env MSYSCON=mintty -e ""{app}\bin\nsh.exe"""; WorkingDir: "{userdocs}"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\nsh Terminal";  Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh -e ""{app}\bin\nsh.exe"""; WorkingDir: "{userdocs}"; Tasks: desktopicon
+Name: "{commondesktop}\nsh Terminal";  Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh --env MSYSTEM=MSYS --env MSYSCON=mintty -e ""{app}\bin\nsh.exe"""; WorkingDir: "{userdocs}"; Tasks: desktopicon
 
 [Registry]
 ; Add to PATH when the user selects the task
@@ -75,7 +75,7 @@ end;
 
 [Run]
 ; Offer to launch nsh after install
-Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh -e ""{app}\bin\nsh.exe"""; \
+Filename: "{app}\bin\mintty.exe"; Parameters: "--title nsh --env MSYSTEM=MSYS --env MSYSCON=mintty -e ""{app}\bin\nsh.exe"""; \
     Description: "Launch nsh Terminal"; Flags: postinstall nowait skipifsilent
 
 [UninstallRun]
