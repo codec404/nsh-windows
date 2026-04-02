@@ -26,7 +26,7 @@ pacman -S --needed --noconfirm \
     gcc \
     make \
     libreadline-devel \
-    sqlite3-devel
+    libsqlite-devel
 
 echo "==> Building nsh..."
 cd "$NSH_SRC"
