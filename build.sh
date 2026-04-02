@@ -26,7 +26,8 @@ pacman -S --needed --noconfirm \
     gcc \
     make \
     libreadline-devel \
-    libsqlite-devel
+    libsqlite-devel \
+    coreutils
 
 echo "==> Building nsh..."
 cd "$NSH_SRC"
@@ -53,17 +54,34 @@ cp "/usr/bin/mintty.exe" "$DIST_DIR/bin/mintty.exe"
 # provides fork/exec/signals on Windows, same as Git Bash)
 cp "/usr/bin/msys-2.0.dll" "$DIST_DIR/bin/"
 
+# Bundle common POSIX utilities so commands like tail, grep, sed work in nsh
+echo "==> Bundling coreutils and common POSIX tools..."
+for util in \
+    cat cut head tail wc sort uniq tee tr \
+    grep sed awk find xargs \
+    cp mv rm mkdir rmdir ln ls touch chmod \
+    date echo printf true false \
+    env; do
+    src="/usr/bin/${util}.exe"
+    if [[ -f "$src" ]]; then
+        echo "  Copying ${util}.exe"
+        cp "$src" "$DIST_DIR/bin/${util}.exe"
+    fi
+done
+
 # Bundle other DLLs that nsh.exe depends on
 echo "==> Bundling runtime DLLs..."
-ldd "$DIST_DIR/bin/nsh.exe" 2>/dev/null \
-    | awk '/\/usr\/bin\// { print $3 }' \
-    | while read -r dll; do
-        name="$(basename "$dll")"
-        if [[ ! -f "$DIST_DIR/bin/$name" ]]; then
-            echo "  Copying $name"
-            cp "$dll" "$DIST_DIR/bin/$name"
-        fi
-    done
+for exe in "$DIST_DIR/bin/"*.exe; do
+    ldd "$exe" 2>/dev/null \
+        | awk '/\/usr\/bin\// { print $3 }' \
+        | while read -r dll; do
+            name="$(basename "$dll")"
+            if [[ ! -f "$DIST_DIR/bin/$name" ]]; then
+                echo "  Copying $name"
+                cp "$dll" "$DIST_DIR/bin/$name"
+            fi
+        done
+done
 
 echo ""
 echo "==> Build complete. Files are in: $DIST_DIR"

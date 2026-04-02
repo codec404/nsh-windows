@@ -15,8 +15,10 @@ Set env = wsh.Environment("Process")
 ' actually exists on disk and SQLite can create the history database there.
 userProfile = env("USERPROFILE")
 Dim winFwd
-winFwd = Replace(userProfile, "\", "/")         ' C:\Users\foo → C:/Users/foo
-homeDir = "/" & LCase(Left(winFwd, 1)) & "/" & Mid(winFwd, 3)   ' → /c/Users/foo
+winFwd = Replace(userProfile, "\", "/")              ' C:\Users\foo → C:/Users/foo
+' Use /cygdrive/<drive>/ prefix — matches MSYS2's default drive mount points
+' in a standalone bundle without /etc/fstab.  e.g. /cygdrive/c/Users/foo
+homeDir = "/cygdrive/" & LCase(Left(winFwd, 1)) & "/" & Mid(winFwd, 3)
 
 env("MSYSTEM") = "MSYS"
 env("MSYSCON") = "mintty"
