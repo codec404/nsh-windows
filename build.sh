@@ -37,7 +37,7 @@ make \
     RL_PREFIX="/usr" \
     SQ_PREFIX="/usr" \
     CFLAGS="-Wall -Wextra -Wpedantic -std=c11 -g -D_GNU_SOURCE -I/usr/include -I/usr/include/readline" \
-    LDFLAGS="-L/usr/lib -lreadline -lsqlite3"
+    LDFLAGS="-L/usr/lib -lreadline -lsqlite3 -mwindows"
 
 echo "==> Collecting files into $DIST_DIR..."
 rm -rf "$DIST_DIR"

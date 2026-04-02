@@ -14,7 +14,9 @@ Set env = wsh.Environment("Process")
 ' POSIX path (e.g. /c/Users/foo) so $HOME resolves to a directory that
 ' actually exists on disk and SQLite can create the history database there.
 userProfile = env("USERPROFILE")
-homeDir = "/" & LCase(Left(userProfile, 1)) & Mid(Replace(userProfile, "\", "/"), 3)
+Dim winFwd
+winFwd = Replace(userProfile, "\", "/")         ' C:\Users\foo → C:/Users/foo
+homeDir = "/" & LCase(Left(winFwd, 1)) & "/" & Mid(winFwd, 3)   ' → /c/Users/foo
 
 env("MSYSTEM") = "MSYS"
 env("MSYSCON") = "mintty"
