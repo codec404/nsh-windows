@@ -26,7 +26,7 @@ pacman -S --needed --noconfirm \
     mingw-w64-x86_64-gcc \
     mingw-w64-x86_64-readline \
     mingw-w64-x86_64-sqlite3 \
-    mingw-w64-x86_64-mintty
+    mintty
 
 echo "==> Building nsh..."
 cd "$SRC_DIR"
